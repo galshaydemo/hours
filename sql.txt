@@ -1,0 +1,14 @@
+select s.day,s.month,s.year,s.hour as 'StartHour',s.minute as 'StartMinute',e.minute as 'EndMinute',e.hour as 'EndHour', 
+(60.0*e.Hour + e.minute*1.0 - (60*s.Hour+s.minute))/60 as 'workMinute'
+from 
+(SELECT * FROM Hours where status=0) s  
+INNER join 
+(select * from Hours WHERE status=1) e 
+on s.day =e.day and s.month=e.month and s.year=e.year
+
+select s.day,s.month,s.year,s.hour as 'StartHour',s.minute as 'StartMinute',e.minute as 'EndMinute',e.hour as 'EndHour', 
+(60.0*e.Hour + e.minute*1.0 - (60*s.Hour+s.minute))/60 as 'workMinute'
+from 
+(SELECT * FROM Hours where status=0) s  CROSS join 
+(select * from Hours WHERE status=1) e 
+on s.day =e.day and s.month=e.month and s.year=e.year

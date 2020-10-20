@@ -9,7 +9,7 @@ import {
   Button,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
-export default function TimePicker()
+export default function TimePicker({onChange})
 {
 	 const [hour, setHour] = useState('8');
   const [mine, setMinute] = useState('0');
@@ -24,8 +24,9 @@ export default function TimePicker()
   style={{height: 20, width: 120}}
   onValueChange={(itemValue) =>
     {
-      console.log(itemValue)
+      
     setHour(itemValue)
+    onChange(itemValue,mine)
     }
   }>
   {hours.map((data) => {
@@ -44,8 +45,10 @@ export default function TimePicker()
   style={{height: 20, width: 120}}
   onValueChange={(itemValue) =>
     {
-      console.log(itemValue)
+      
+
     setMinute(itemValue)
+    onChange(hour,itemValue)
     }
   }>
   {minutes.map((data) => {

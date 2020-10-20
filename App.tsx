@@ -27,6 +27,30 @@ import messaging from '@react-native-firebase/messaging';
 import Geolocation from '@react-native-community/geolocation';
 export default function App()
 {
+  const [year, setYear] = useState(0);
+  const [month, setMonth] = useState(0);
+  const [day, setDay] = useState(0);
+  const [hour, setHour] = useState(0);
+  const [mine, setMinute] = useState(0);
+
+  const changeDate=(year,month,day)=>
+  {
+    setYear(year)
+    setMonth(month)
+    setDay(day)
+    console.log('chnage date' + year.toString())
+    console.log('chnage date' + month.toString())
+    console.log('chnage date' + day.toString())
+  }
+  const changeTime=(hour,minute)=>
+  {
+    setHour(hour)
+    setMinute(minute)
+    
+    console.log('change time hour' + hour.toString())
+    console.log('change time minute' + minute.toString())
+    
+  }
   const createTables=()=>
   {
     const sqlName="CREATE TABLE IF NOT EXISTS Hours( " +
@@ -61,7 +85,7 @@ export default function App()
     setStatus(!status)
     db.transaction(tx => {
       tx.executeSql(
-      "insert into Hours (day,month,year,stHour,stMinute,enHour,enMinute) values(1,1,2000,10,5,12,6)")
+      "insert into Hours (day,month,year,Hour,Minute,status) values(1,1,2000,10,5,12,6)")
     .then(()=>{
       console.log('add record');
     })
@@ -122,8 +146,8 @@ export default function App()
           </View>
           </TouchableOpacity>         
           
-        <DatePicker></DatePicker>
-        <TimePicker></TimePicker>
+        <DatePicker onChange={changeDate}></DatePicker>
+        <TimePicker onChange={changeTime}></TimePicker>
         <View style={{marginTop:30}}>
         <TouchableOpacity onPress={updateDatabase}
           style={styles.buttonFacebookStyle}

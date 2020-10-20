@@ -9,7 +9,7 @@ import {
   Button,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
-export default function DatePicker()
+export default function DatePicker({onChange})
 {
 	 const [year, setYear] = useState(2020);
   const [month, setMonth] = useState(10);
@@ -22,7 +22,11 @@ export default function DatePicker()
         selectedValue={year}
         style={{height: 20, width: 120}}
         onValueChange={(itemValue) =>
+        {
+          onChange(year,month,day)
         setYear(itemValue)
+        }
+        
         }>
         {['2000','2001'].map((data) => {
         return (
@@ -38,7 +42,10 @@ export default function DatePicker()
         selectedValue={month}
         style={{height: 20, width: 120}}
         onValueChange={(itemValue) =>
+        {
+          onChange(year,month,day)
         setMonth(itemValue)
+        }
         }>
         {months.map((data) => {
         return (
@@ -51,10 +58,14 @@ export default function DatePicker()
 </View>
 <View style={styles.oneLine}>
     <Picker
-        selectedValue={year}
+        selectedValue={day}
+        
         style={{height: 20, width: 120}}
         onValueChange={(itemValue) =>
+        {
+          onChange(year,month,day)
         setDay(itemValue)
+        }
         }>
         {days.map((data) => {
         return (

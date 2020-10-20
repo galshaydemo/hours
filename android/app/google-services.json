@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "197780165697",
+    "firebase_url": "https://raildemo-cee86.firebaseio.com",
+    "project_id": "raildemo-cee86",
+    "storage_bucket": "raildemo-cee86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197780165697:android:6136d1a7288926ff9b22c0",
+        "android_client_info": {
+          "package_name": "com.hours"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197780165697-hree988vnkicmh85bjn0gf4202ver73n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFZbGc94hbsUPLKglzCAVcZ0qZGDDbmZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197780165697-hree988vnkicmh85bjn0gf4202ver73n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

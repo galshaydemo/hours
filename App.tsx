@@ -14,11 +14,17 @@ import {
   View,
   Text,
   StatusBar,
+  Image,
+  TouchableOpacity,
   Button,
 } from 'react-native';
-
+import {Picker} from '@react-native-community/picker';
 import SQLite from "react-native-sqlite-storage";
-
+import DatePicker from './DatePicker';
+import TimePicker from './TimePicker';
+import OnePicker from './OnePicker'
+import messaging from '@react-native-firebase/messaging';
+import Geolocation from '@react-native-community/geolocation';
 export default function App()
 {
   const createTables=()=>
@@ -64,7 +70,7 @@ export default function App()
   useEffect(function() {
     SQLite.DEBUG(true);
     SQLite.enablePromise(true);
-
+    Geolocation.getCurrentPosition(info => console.log(info))
     SQLite.openDatabase({
         name: "TestDatabase",
         location: "default"
@@ -81,10 +87,77 @@ export default function App()
       <View style={styles.scrollView}>
         <Text style={styles.sectionTitle}>דיווח שעות</Text>
       </View>
-      <View>
-        <Button title={status ? "Start":"End"} onPress={updateDatabase}></Button>
-        <Button title="Read" onPress={readData}></Button>
+      <View >
+      
+      <TouchableOpacity onPress={updateDatabase}
+          style={styles.buttonFacebookStyle}
+          activeOpacity={0.5}>
+            <View style={styles.action}>
+          <Image style={{width:32,height:32,backgroundColor:'lightgreen'}}
+            source={
+              require('./clock.png')
+            }
+            
+          />
+          
+          <Text style={styles.buttonTextStyle}>
+             התחלת עבודה אוטומאטי
+          </Text>
+          </View>  
+        </TouchableOpacity>
         
+        
+        <TouchableOpacity onPress={updateDatabase}>
+        <View style={styles.action}>
+          <Image style={{width:32,height:32}}
+            source={
+              require('./clock.png')
+            }
+            
+          />
+          
+          <Text style={styles.buttonTextStyle}>
+             סיום עבודה אוטומאטי
+          </Text>
+          </View>
+          </TouchableOpacity>         
+          
+        <DatePicker></DatePicker>
+        <TimePicker></TimePicker>
+        <View style={{marginTop:30}}>
+        <TouchableOpacity onPress={updateDatabase}
+          style={styles.buttonFacebookStyle}
+          activeOpacity={0.5}>
+            <View style={styles.action}>
+          <Image style={{width:32,height:32,backgroundColor:'lightgreen'}}
+            source={
+              require('./clock.png')
+            }
+            
+          />
+          
+          <Text style={styles.buttonTextStyle}>
+             התחלת עבודה ידני
+          </Text>
+          </View>  
+        </TouchableOpacity>
+        
+        
+        <TouchableOpacity onPress={updateDatabase}>
+        <View style={styles.action}>
+          <Image style={{width:32,height:32}}
+            source={
+              require('./clock.png')
+            }
+            
+          />
+          
+          <Text style={styles.buttonTextStyle}>
+             סיום עבודה ידני
+          </Text>
+          </View>
+          </TouchableOpacity>         
+          </View>
       </View>
       </SafeAreaView>)
   }
@@ -92,12 +165,25 @@ export default function App()
   
 
 const styles = StyleSheet.create({
+  buttonTextStyle:
+  {
+    width:200,
+    borderWidth:0,
+  },
   scrollView: {
     
   },
   engine: {
     position: 'absolute',
     right: 0,
+  },
+  action:
+  {
+    marginBottom:20,
+    flexDirection:'row',justifyContent:'space-around'
+  },
+  img:{
+    
   },
   body: {
     

@@ -55,7 +55,7 @@ export default function App()
   {
     const sqlName="CREATE TABLE IF NOT EXISTS Hours( " +
     "hour_id INTEGER PRIMARY KEY NOT NULL, " +
-    "day INTEGER, month INTEGER,year INTEGER,stHour INTEGER,stMinute INTEGER,enHour INTEGER,enMinute INTEGER" +
+    "day INTEGER, month INTEGER,year INTEGER,Hour INTEGER,Minute INTEGER,INTEGER,status INTEGER" +
   ");"
     console.log('create table')
     console.log(db);
@@ -63,6 +63,8 @@ export default function App()
       tx.executeSql(
         sqlName
       )
+    }).then(()=>{
+      console.log('create record');
     })
 
   }  
@@ -80,16 +82,35 @@ export default function App()
     ) // end transaction
     })
   }
-  const updateDatabase=()=>
+  const updateDatabase=(close,current)=>
   {
-    setStatus(!status)
-    db.transaction(tx => {
+    if (current)
+    {
+      const d=new Date();
+      
+      db.transaction(tx => {
       tx.executeSql(
-      "insert into Hours (day,month,year,Hour,Minute,status) values(1,1,2000,10,5,12,6)")
+      "insert into Hours (day,month,year,Hour,Minute,status) values(?,?,?,?,?,?)",[
+        d.getDay(),d.getMonth()+1,d.getFullYear(),d.getHours(),d.getMinutes(),close? 1 : 0
+      ])
     .then(()=>{
       console.log('add record');
     })
   })
+    }
+    else
+    {
+    //setStatus(!status)
+    db.transaction(tx => {
+      tx.executeSql(
+      "insert into Hours (day,month,year,Hour,Minute,status) values(?,?,?,?,?,?)",[
+        day,month,year,hour,mine,close? 1 : 0
+      ])
+    .then(()=>{
+      console.log('add record');
+    })
+  })
+    }
 }
   useEffect(function() {
     SQLite.DEBUG(true);
@@ -113,8 +134,8 @@ export default function App()
       </View>
       <View >
       
-      <TouchableOpacity onPress={updateDatabase}
-          style={styles.buttonFacebookStyle}
+      <TouchableOpacity onPress={()=>updateDatabase(true,true)}
+          
           activeOpacity={0.5}>
             <View style={styles.action}>
           <Image style={{width:32,height:32,backgroundColor:'lightgreen'}}

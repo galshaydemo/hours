@@ -12,3 +12,4 @@ from
 (SELECT * FROM Hours where status=0) s  CROSS join 
 (select * from Hours WHERE status=1) e 
 on s.day =e.day and s.month=e.month and s.year=e.year
+aaa

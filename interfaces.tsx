@@ -41,7 +41,7 @@ export class reportHour
         return this.formatTime(this.sHour,this.sMinute)
     }
     timeEnd() {
-        if ( this.eHour )
+        if ( this.eHour != null )
         return this.formatTime(this.eHour,this.eMinute)
         return '00:00'
     }

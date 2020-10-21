@@ -41,20 +41,34 @@ export default function Home()
     const [data, setData] = useState([]);
     const readData = (localDb) => {
     var temp=[]
-    const sqlName="select s.day,s.month,s.year,s.hour as sHour,s.minute as sMinute,e.hour as eHour,e.minute as eMinute,(60.0*e.Hour + e.Minute -(60*s.Hour+s.Minute))/60.0 as hours,s.dayWeek  from (SELECT * FROM hours where status=0) s left join  (SELECT * FROM hours where status=1) e on e.day=s.day and e.month=s.month and e.year=s.year"
+    const sqlName="select s.day as day,s.month as month,s.year as year,s.hour as sHour,s.minute as sMinute,e.hour as eHour,e.minute as eMinute,(60.0*e.Hour + e.Minute -(60*s.Hour+s.Minute))/60.0 as hours,s.dayWeek  from (SELECT * FROM hours where status=0) s left join  (SELECT * FROM hours where status=1) e on e.day=s.day and e.month=s.month and e.year=s.year"
       localDb.transaction(tx => {
         
         // sending 4 arguments in executeSql
         tx.executeSql(sqlName, [], // passing sql query and parameters:null
         (tx,results) => {
-          console.log('aaa')
-          console.log(results.rows.length)
+          
           for(let i=0;i<results.rows.length;i++)
           {
               console.log(i)
               let tempObject=new reportHour();
+              debugger;
               console.log('row i'+i)
               
+              tempObject.index=i;
+              tempObject.key=results.rows.item(i).day.toString();
+              tempObject.day=results.rows.item(i).day.toString();
+              tempObject.year=results.rows.item(i).year;
+              tempObject.month=results.rows.item(i).month;
+              tempObject.sHour=results.rows.item(i).sHour;
+              tempObject.sMinute=results.rows.item(i).sMinute;
+              if ( results.rows.item(i).eHour != null)
+              {
+              tempObject.eHour=results.rows.item(i).eHour;
+              tempObject.eMinute=results.rows.item(i).eMinute;
+              tempObject.hours=results.rows.item(i).hours;
+              }
+              tempObject.dayWeek=results.rows.item(i).dayWeek;
               
               temp.push(tempObject)
               console.log('after push')

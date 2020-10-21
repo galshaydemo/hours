@@ -84,9 +84,10 @@ export default function Home({navigation})
     
     const updateDatabase=(close,current)=>
     {
-        
+       debugger;
       if (current)
       {
+
         const d=new Date();
         
         db.transaction(tx => {
@@ -133,7 +134,16 @@ export default function Home({navigation})
         <DatePicker onChange={changeDate}></DatePicker>
         <TimePicker onChange={changeTime}></TimePicker>
         <View style={{marginTop:30}}>
-          
+          <Button title="Delete All" onPress={()=>
+          {
+            console.log(db)
+            db.transaction(tx => {
+        tx.executeSql(
+        "delete from  Hours",[]
+         )
+      .then(()=>{
+        console.log('delete all');
+      })})}}></Button>
       
           </View>
       </View>

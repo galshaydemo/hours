@@ -43,7 +43,7 @@ export default function PickerNumber ({num,inRow,text,onChange,start} ) {
                                 const labelStr = label < 10 ? '0' + label.toString() :label.toString();
 
                                 if ( label < num+1)
-                                return (<View style={{paddingHorizontal:2}}>
+                                return (<View key={labelStr} style={{paddingHorizontal:2}}>
                                   <Button key={labelStr} title={labelStr} 
                                   onPress={()=>{setModalVisible(!modalVisible);
                                   onChange(label.toString())}}></Button></View>)

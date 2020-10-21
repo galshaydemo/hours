@@ -15,10 +15,13 @@ import SQLite from "react-native-sqlite-storage";
 import DatePicker from './DatePicker';
 import PickerNumber from './PickerNumber';
 import TimePicker from './TimePicker';
+import inAppMessaging from '@react-native-firebase/in-app-messaging';
+import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import Geolocation from '@react-native-community/geolocation';
 export default function Home({navigation})
 {
+    const defaultAppInAppMessaging = firebase.inAppMessaging();
     React.useLayoutEffect(() => {
         navigation.setOptions({
           headerRight: () => (
@@ -96,6 +99,10 @@ export default function Home({navigation})
     }
     const updateDatabase=(close,current)=>
     {
+        if ( close && current) defaultAppInAppMessaging.triggerEvent('endAuto')
+        if ( close && !current) defaultAppInAppMessaging.triggerEvent('endManuel')
+        if ( !close && current) defaultAppInAppMessaging.triggerEvent('startAuto')
+        if ( !close && !current) defaultAppInAppMessaging.triggerEvent('startManuel')
       if (current)
       {
         const d=new Date();

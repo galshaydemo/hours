@@ -9,6 +9,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
+import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {

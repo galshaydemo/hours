@@ -9,6 +9,7 @@ import {
   Button,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
+import PickerNumber from './PickerNumber';
 export default function TimePicker({onChange})
 {
 	 const [hour, setHour] = useState('8');
@@ -37,6 +38,7 @@ export default function TimePicker({onChange})
 }
 </Picker>
 <Text style={styles.label}>שעה</Text>
+<PickerNumber start={0} num={24} inRow={6} text={'בחר שעה'} onChange={(m)=> setHour(m)}></PickerNumber>   
 </View>
 <View style={styles.oneLine}>
     <Picker
@@ -59,6 +61,7 @@ export default function TimePicker({onChange})
 }
 </Picker>
 <Text style={styles.label}>דקות</Text>
+<PickerNumber start={0} num={60} inRow={10} text={'בחר דקה'} onChange={(m)=> setMinute(m)}></PickerNumber>   
 </View>
 
 </View>

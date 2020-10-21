@@ -30,14 +30,15 @@ export default function DatePicker({onChange})
         }
         
         }>
-        {['2000','2001'].map((data) => {
+        {[2000,2001,2002].map((data) => {
         return (
-          <Picker.Item key={data} label={data} value={data}/>
+          <Picker.Item key={data} label={data.toString()} value={data.toString()}/>
         )
       })
       }
 </Picker>
 <Text style={styles.label}>שנה</Text>
+<PickerNumber start={2000} num={2003} inRow={3} text={'בחר שנה'} onChange={(m)=> setYear(m)}></PickerNumber>   
 
 </View>
 <View style={styles.oneLine}>
@@ -58,7 +59,7 @@ export default function DatePicker({onChange})
       }
 </Picker>
 <Text style={styles.label}>חודש</Text>
-<PickerNumber num={12} inRow={3}></PickerNumber>   
+<PickerNumber start={1} num={12} inRow={4} text={'בחר חודש'} onChange={(m)=> setMonth(m)}></PickerNumber>   
 </View>
 <View style={styles.oneLine}>
     <Picker
@@ -79,7 +80,7 @@ export default function DatePicker({onChange})
       }
 </Picker>
 <Text style={styles.label}>יום</Text>
-<PickerNumber num={31} inRow={6}></PickerNumber>   
+<PickerNumber start={1} onChange={(m)=> setDay(m)} num={31} inRow={6} text={'בחר יום'}></PickerNumber>   
 </View>
 
 </View>)
@@ -89,7 +90,10 @@ const styles = StyleSheet.create({
   {
     flexDirection:'row-reverse',
     marginTop:10,
-    justifyContent:'space-evenly'
+    paddingTop:10,
+    paddingBottom:10,
+    justifyContent:'space-evenly',
+    borderWidth:1,
     
   },
   label:

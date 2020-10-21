@@ -15,13 +15,13 @@ import SQLite from "react-native-sqlite-storage";
 import DatePicker from './DatePicker';
 import PickerNumber from './PickerNumber';
 import TimePicker from './TimePicker';
-import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import Geolocation from '@react-native-community/geolocation';
+import ActionButton from './Action';
 export default function Home({navigation})
 {
-    const defaultAppInAppMessaging = firebase.inAppMessaging();
+    
     React.useLayoutEffect(() => {
         navigation.setOptions({
           headerRight: () => (
@@ -54,16 +54,11 @@ export default function Home({navigation})
       setYear(year)
       setMonth(month)
       setDay(day)
-      console.log('change time hour' +year.toString())
-      console.log('change time minute' + month.toString())
     }
     const changeTime=(hour,minute)=>
     {
       setHour(hour)
       setMinute(minute)
-      
-      console.log('change time hour' + hour.toString())
-      console.log('change time minute' + minute.toString())
       
     }
     const createTables=(dbLocal)=>
@@ -86,23 +81,10 @@ export default function Home({navigation})
   
     const [status, setStatus] = useState(true);
     const [db, setDb] = useState(null);
-    const readData = () => {
-      db.transaction(tx => {
-        // sending 4 arguments in executeSql
-        tx.executeSql('SELECT * FROM hours', [], // passing sql query and parameters:null
-        (tx,results) => {
-          console.log(results.rows.length)
-        }
-          
-      ) // end transaction
-      })
-    }
+    
     const updateDatabase=(close,current)=>
     {
-        if ( close && current) defaultAppInAppMessaging.triggerEvent('endAuto')
-        if ( close && !current) defaultAppInAppMessaging.triggerEvent('endManuel')
-        if ( !close && current) defaultAppInAppMessaging.triggerEvent('startAuto')
-        if ( !close && !current) defaultAppInAppMessaging.triggerEvent('startManuel')
+        
       if (current)
       {
         const d=new Date();
@@ -138,75 +120,20 @@ export default function Home({navigation})
         <Text style={styles.sectionTitle}>דיווח שעות</Text>
       </View>
       <View style={styles.container}>
-     
-      <TouchableOpacity onPress={()=>updateDatabase(false,true)}
-          
-          activeOpacity={0.5}>
-            <View style={styles.action}>
-          <Image style={{width:32,height:32,backgroundColor:'lightgreen'}}
-            source={
-              require('./clock.png')
-            }
-            
-          />
-          
-          <Text style={styles.buttonTextStyle}>
-             התחלת עבודה אוטומאטי
-          </Text>
-          </View>  
-        </TouchableOpacity>
-        
-        
-        <TouchableOpacity onPress={()=>updateDatabase(true,true)}>
-        <View style={styles.action}>
-          <Image style={{width:32,height:32}}
-            source={
-              require('./clock.png')
-            }
-            
-          />
-          
-          <Text style={styles.buttonTextStyle}>
-             סיום עבודה אוטומאטי
-          </Text>
-          </View>
-          </TouchableOpacity>         
-          
+        <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
+        <Text>התחלת עבודה</Text>
+        <ActionButton text={'אוטומאטי'} color='lightgreen' close={false} auto={true} onClick={updateDatabase}></ActionButton>
+        <ActionButton text={'ידני'} color='lightgreen' close={false} auto={false} onClick={updateDatabase}></ActionButton>
+        </View>
+        <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
+          <Text>סיום עבודה</Text>
+        <ActionButton text={'אוטומאטי'} color='red' close={true} auto={true} onClick={updateDatabase}></ActionButton>
+        <ActionButton text={'ידני'} color='red' close={true} auto={false} onClick={updateDatabase}></ActionButton>
+        </View>
         <DatePicker onChange={changeDate}></DatePicker>
         <TimePicker onChange={changeTime}></TimePicker>
         <View style={{marginTop:30}}>
-        <TouchableOpacity onPress={()=>updateDatabase(false,false)}
-          activeOpacity={0.5}>
-            <View style={styles.action}>
-          <Image style={{width:32,height:32,backgroundColor:'lightgreen'}}
-            source={
-              require('./clock.png')
-            }
-            
-          />
           
-          <Text style={styles.buttonTextStyle}>
-             התחלת עבודה ידני
-          </Text>
-          </View>  
-        </TouchableOpacity>
-        
-        
-        <TouchableOpacity onPress={()=>updateDatabase(true,false)}>
-        <View style={styles.action}>
-          <Image style={{width:32,height:32,backgroundColor:'red'}}
-            source={
-              require('./clock.png')
-            }
-            
-          />
-          
-          <Text style={styles.buttonTextStyle}>
-             סיום עבודה ידני
-          </Text>
-          </View>
-          </TouchableOpacity>         
-          <PickerNumber num={31} inRow={6}></PickerNumber>   
       
           </View>
       </View>

@@ -47,24 +47,15 @@ export default function Home()
         // sending 4 arguments in executeSql
         tx.executeSql(sqlName, [], // passing sql query and parameters:null
         (tx,results) => {
-          
+          console.log('aaa')
+          console.log(results.rows.length)
           for(let i=0;i<results.rows.length;i++)
           {
               console.log(i)
               let tempObject=new reportHour();
               console.log('row i'+i)
-              console.log(results.rows.item(i).sHour)
-              tempObject.index=i;
-              tempObject.key=results.rows.item(i).day.toString();
-              tempObject.day=results.rows.item(i).day.toString();
-              tempObject.year=results.rows.item(i).year;
-              tempObject.month=results.rows.item(i).month;
-              tempObject.sHour=results.rows.item(i).sHour;
-              tempObject.sMinute=results.rows.item(i).sMinute;
-              tempObject.eHour=results.rows.item(i).eHour;
-              tempObject.eMinute=results.rows.item(i).eMinute;
-              tempObject.dayWeek=results.rows.item(i).dayWeek;
-              tempObject.hours=results.rows.item(i).hours;
+              
+              
               temp.push(tempObject)
               console.log('after push')
           }

@@ -23,7 +23,6 @@ import SQLite from "react-native-sqlite-storage";
 import DatePicker from './DatePicker';
 import TimePicker from './TimePicker';
 import messaging from '@react-native-firebase/messaging';
-import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import firebase from '@react-native-firebase/app';
 import Home from './Home'
 import Report from './Report'
@@ -35,11 +34,11 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 export default function App()
 {
-  const defaultAppInAppMessaging = firebase.inAppMessaging();
+  
   useEffect(function() {
     
     Geolocation.getCurrentPosition(info => console.log(info))
-    defaultAppInAppMessaging.triggerEvent('Start App')
+  
    
 }, []);
     return (

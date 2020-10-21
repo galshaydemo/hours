@@ -9,6 +9,8 @@ import {
   Button,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
+import PickerNumber from './PickerNumber';
+
 export default function DatePicker({onChange})
 {
 	 const [year, setYear] = useState('2020');
@@ -36,6 +38,7 @@ export default function DatePicker({onChange})
       }
 </Picker>
 <Text style={styles.label}>שנה</Text>
+
 </View>
 <View style={styles.oneLine}>
     <Picker
@@ -55,6 +58,7 @@ export default function DatePicker({onChange})
       }
 </Picker>
 <Text style={styles.label}>חודש</Text>
+<PickerNumber num={12} inRow={3}></PickerNumber>   
 </View>
 <View style={styles.oneLine}>
     <Picker
@@ -75,6 +79,7 @@ export default function DatePicker({onChange})
       }
 </Picker>
 <Text style={styles.label}>יום</Text>
+<PickerNumber num={31} inRow={6}></PickerNumber>   
 </View>
 
 </View>)

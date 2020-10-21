@@ -8,10 +8,12 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  
   Button,
 } from 'react-native';
 import SQLite from "react-native-sqlite-storage";
 import DatePicker from './DatePicker';
+import PickerNumber from './PickerNumber';
 import TimePicker from './TimePicker';
 import messaging from '@react-native-firebase/messaging';
 import Geolocation from '@react-native-community/geolocation';
@@ -129,7 +131,7 @@ export default function Home({navigation})
         <Text style={styles.sectionTitle}>דיווח שעות</Text>
       </View>
       <View style={styles.container}>
-      
+     
       <TouchableOpacity onPress={()=>updateDatabase(false,true)}
           
           activeOpacity={0.5}>
@@ -197,7 +199,7 @@ export default function Home({navigation})
           </Text>
           </View>
           </TouchableOpacity>         
-        
+          <PickerNumber num={31} inRow={6}></PickerNumber>   
       
           </View>
       </View>

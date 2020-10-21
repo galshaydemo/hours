@@ -22,7 +22,7 @@ export default function TimePicker({onChange})
   selectedValue={hour}
   
   style={{height: 20, width: 120}}
-  onValueChange={(itemValue) =>
+  onValueChange={(itemValue:string) =>
     {
       
     setHour(itemValue)
@@ -31,7 +31,7 @@ export default function TimePicker({onChange})
   }>
   {hours.map((data) => {
       return (
-        <Picker.Item label={data.toString()} value={data.toString()}/>
+        <Picker.Item key={data} label={data.toString()} value={data.toString()}/>
       )
     })
 }
@@ -43,7 +43,7 @@ export default function TimePicker({onChange})
   selectedValue={mine}
   
   style={{height: 20, width: 120}}
-  onValueChange={(itemValue) =>
+  onValueChange={(itemValue:string) =>
     {
       
 
@@ -53,7 +53,7 @@ export default function TimePicker({onChange})
   }>
   {minutes.map((data) => {
       return (
-        <Picker.Item label={data.toString()} value={data.toString()}/>
+        <Picker.Item key={data} label={data.toString()} value={data.toString()}/>
       )
     })
 }
@@ -66,9 +66,10 @@ export default function TimePicker({onChange})
 const styles = StyleSheet.create({
 oneLine:
 {
-  flexDirection:'row',
+  flexDirection:'row-reverse',
   marginTop:10,
-  justifyContent:'space-around'
+  justifyContent:'space-evenly'
+  
 },
 
   label:

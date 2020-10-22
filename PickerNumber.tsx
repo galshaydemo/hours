@@ -36,7 +36,7 @@ export default function PickerNumber ({num,inRow,text,onChange,start} ) {
                         rows.map((item)=>
                         {
                             return(
-                            <View style={{flexDirection:'row',justifyContent:'space-between',paddingVertical:3}}>
+                            <View key={item} style={{flexDirection:'row',justifyContent:'space-between',paddingVertical:3}}>
                             {cols.map((c)=>
                             {
                                 const label=item*inRow+c+start;

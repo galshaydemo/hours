@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useLayoutEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,7 +19,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { reportHour } from './interfaces';
 export default function Home()
 {
-    useEffect(function() {
+    useLayoutEffect(function() {
         SQLite.DEBUG(true);
         SQLite.enablePromise(true);
         
@@ -40,6 +40,7 @@ export default function Home()
     const [db, setDb] = useState(null);
     const [data, setData] = useState([]);
     const readData = (localDb) => {
+      console.log('read data')
     var temp=[]
     const sqlName="select s.day as day,s.month as month,s.year as year,s.hour as sHour,s.minute as sMinute,e.hour as eHour,e.minute as eMinute,(60.0*e.Hour + e.Minute -(60*s.Hour+s.Minute))/60.0 as hours,s.dayWeek  from (SELECT * FROM hours where status=0) s left join  (SELECT * FROM hours where status=1) e on e.day=s.day and e.month=s.month and e.year=s.year"
       localDb.transaction(tx => {

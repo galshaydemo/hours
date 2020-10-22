@@ -38,7 +38,7 @@ export default function DatePicker({onChange})
       }
 </Picker>
 <Text style={styles.label}>שנה</Text>
-<PickerNumber start={2000} num={2003} inRow={3} text={'בחר שנה'} onChange={(m)=> setYear(m)}></PickerNumber>   
+<PickerNumber start={2000} num={2003} inRow={3} text={'בחר שנה'} onChange={(m)=> {setYear(m);onChange(m,month,day)}}></PickerNumber>   
 
 </View>
 <View style={styles.oneLine}>
@@ -59,7 +59,7 @@ export default function DatePicker({onChange})
       }
 </Picker>
 <Text style={styles.label}>חודש</Text>
-<PickerNumber start={1} num={12} inRow={4} text={'בחר חודש'} onChange={(m)=> setMonth(m)}></PickerNumber>   
+<PickerNumber start={1} num={12} inRow={4} text={'בחר חודש'} onChange={(m)=> {setMonth(m); onChange(year,m,day)}}></PickerNumber>   
 </View>
 <View style={styles.oneLine}>
     <Picker
@@ -68,8 +68,10 @@ export default function DatePicker({onChange})
         style={{height: 20, width: 120}}
         onValueChange={(itemValue:string) =>
         {
+          
           onChange(year,month,itemValue)
-        setDay(itemValue)
+          setDay(itemValue)
+        
         }
         }>
         {days.map((data) => {
@@ -80,7 +82,7 @@ export default function DatePicker({onChange})
       }
 </Picker>
 <Text style={styles.label}>יום</Text>
-<PickerNumber start={1} onChange={(m)=> setDay(m)} num={31} inRow={6} text={'בחר יום'}></PickerNumber>   
+<PickerNumber start={1} onChange={(m)=> {setDay(m); onChange(year,month,m)}} num={31} inRow={6} text={'בחר יום'}></PickerNumber>   
 </View>
 
 </View>)
@@ -92,13 +94,13 @@ const styles = StyleSheet.create({
     marginTop:10,
     paddingTop:10,
     paddingBottom:10,
-    justifyContent:'space-evenly',
-    borderWidth:1,
+    
     
   },
   label:
   {
-    width:100,
+    
+    width:30,
   }
   });
   

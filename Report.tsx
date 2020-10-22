@@ -1,4 +1,5 @@
 import React,{useState,useEffect,useLayoutEffect} from 'react';
+import { useFocusEffect} from '@react-navigation/native'
 import {
   SafeAreaView,
   StyleSheet,
@@ -17,9 +18,11 @@ import messaging from '@react-native-firebase/messaging';
 import Geolocation from '@react-native-community/geolocation';
 import { FlatList } from 'react-native-gesture-handler';
 import { reportHour } from './interfaces';
+import { initialWindowMetrics } from 'react-native-safe-area-context';
 export default function Home()
 {
-    useLayoutEffect(function() {
+    const init=()=>
+    {
         SQLite.DEBUG(true);
         SQLite.enablePromise(true);
         
@@ -30,7 +33,20 @@ export default function Home()
           setDb(db)   
           readData(db)         
         });
-    }, []);
+    }
+
+    useFocusEffect(
+        React.useCallback(() => {
+          //alert('Screen was focused');
+          init()
+          // Do something when the screen is focused
+          return () => {
+            //alert('Screen was unfocused');
+            // Do something when the screen is unfocused
+            // Useful for cleanup functions
+          };
+        }, [])
+      );
     
   
     

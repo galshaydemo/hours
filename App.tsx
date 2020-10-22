@@ -29,9 +29,11 @@ import Report from './Report'
 import Geolocation from '@react-native-community/geolocation';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Search from './Search'
 import { createDrawerNavigator } from '@react-navigation/drawer';
-const Stack = createStackNavigator();
+import DrawerNavigator from './navigate/DrawerNavigator';
 const Drawer = createDrawerNavigator();
+
 export default function App()
 {
   
@@ -43,9 +45,10 @@ export default function App()
 }, []);
     return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="Report" component={Report} />
+      <Drawer.Navigator>
+        <Drawer.Screen name="Home" component={Home}></Drawer.Screen>
+        <Drawer.Screen name="Report" component={Report}></Drawer.Screen>
+        <Drawer.Screen name="Search" component={Search}></Drawer.Screen>
       </Drawer.Navigator>
        
     </NavigationContainer>  )

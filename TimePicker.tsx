@@ -25,9 +25,9 @@ export default function TimePicker({onChange})
   style={{height: 20, width: 120}}
   onValueChange={(itemValue:string) =>
     {
-      
-    setHour(itemValue)
-    onChange(itemValue,mine)
+      onChange(itemValue,mine)  
+      setHour(itemValue)
+    
     }
   }>
   {hours.map((data) => {
@@ -38,7 +38,7 @@ export default function TimePicker({onChange})
 }
 </Picker>
 <Text style={styles.label}>שעה</Text>
-<PickerNumber start={0} num={24} inRow={6} text={'בחר שעה'} onChange={(m)=> setHour(m)}></PickerNumber>   
+<PickerNumber start={0} num={24} inRow={6} text={'בחר שעה'} onChange={(m)=> {setHour(m);onChange(m,mine)}}></PickerNumber>   
 </View>
 <View style={styles.oneLine}>
     <Picker
@@ -49,8 +49,9 @@ export default function TimePicker({onChange})
     {
       
 
-    setMinute(itemValue)
     onChange(hour,itemValue)
+    
+    setMinute(itemValue)
     }
   }>
   {minutes.map((data) => {
@@ -61,7 +62,7 @@ export default function TimePicker({onChange})
 }
 </Picker>
 <Text style={styles.label}>דקות</Text>
-<PickerNumber start={0} num={60} inRow={10} text={'בחר דקה'} onChange={(m)=> setMinute(m)}></PickerNumber>   
+<PickerNumber start={0} num={60} inRow={10} text={'בחר דקה'} onChange={(m)=> {setMinute(m);onChange(hour,m)}}></PickerNumber>   
 </View>
 
 </View>
@@ -77,7 +78,7 @@ oneLine:
 
   label:
   {
-    width:100,
+    width:30,
   }
 });
 

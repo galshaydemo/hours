@@ -57,6 +57,7 @@ export default function Home({navigation})
     }
     const changeTime=(hour,minute)=>
     {
+      console.log(hour)
       setHour(hour)
       setMinute(minute)
       
@@ -84,7 +85,7 @@ export default function Home({navigation})
     
     const updateDatabase=(close,current)=>
     {
-       debugger;
+       
       if (current)
       {
 
@@ -102,6 +103,13 @@ export default function Home({navigation})
       }
       else
       {
+          console.log(hour)
+          console.log(mine)
+          if ( hour == 0 && mine == 0)
+          {
+              alert('Error')
+              return
+          }
       //setStatus(!status)
       const d=new Date(year,month-1,day)
       db.transaction(tx => {

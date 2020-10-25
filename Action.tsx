@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import SQLite from "react-native-sqlite-storage";
 import DatePicker from './DatePicker';
-import PickerNumber from './PickerNumber';
+import PickerNumber from './Component/PickerNumber';
 import TimePicker from './TimePicker';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';

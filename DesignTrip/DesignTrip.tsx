@@ -14,8 +14,8 @@ import {
 import Station from './Station'
 import SQLite from "react-native-sqlite-storage";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import PickerNumber from '../PickerNumber';
-import TimePicker from '../TimePicker';
+import PickerNumber from '../Component/PickerNumber';
+import TimePickerHalf from '../Component/TimePickerHalf';
 
 function DesignTrip()
 {
@@ -161,14 +161,14 @@ function DesignTrip()
         
 			</View>
 			<View><Text  style={styles.labelStyle}>{time.toLocaleTimeString('he-IL')}</Text></View>
-      <TimePicker onChange={(m)=>{
+      <TimePickerHalf defaultHour={0} defaultMinute={0} onChange={(m)=>{
         let d=new Date()
         d.setHours(m)
         d.setMinutes(0)
         d.setSeconds(0)
         setTime(d)
 
-      }}></TimePicker>
+      }}></TimePickerHalf>
 			<DateTimePickerModal
         isVisible={showTime}
         mode="time"

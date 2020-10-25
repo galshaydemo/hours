@@ -15,7 +15,7 @@ export default function TimePicker({onChange})
 	 const [hour, setHour] = useState('8');
   const [mine, setMinute] = useState('0');
   
-  const hours=Array.from(Array(24).keys());
+  const hours=[0,30];
   const minutes=Array.from(Array(60).keys());
 	return <View style={{}}>
     <View style={styles.oneLine}>

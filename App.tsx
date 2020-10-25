@@ -46,9 +46,10 @@ export default function App()
     return (
     <NavigationContainer>
       <Drawer.Navigator>
+        <Drawer.Screen name="Search" component={DesignTrip}></Drawer.Screen>
         <Drawer.Screen name="Home" component={Home}></Drawer.Screen>
         <Drawer.Screen name="Report" component={Report}></Drawer.Screen>
-        <Drawer.Screen name="Search" component={DesignTrip}></Drawer.Screen>
+        
       </Drawer.Navigator>
        
     </NavigationContainer>  )

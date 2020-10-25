@@ -1,4 +1,4 @@
-import React,{useState,useEffect, createRef} from 'react';
+import React,{useState,useEffect, createRef,useRef} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -12,11 +12,61 @@ import {
   Button,
 } from 'react-native';
 import Station from './Station'
-
+import SQLite from "react-native-sqlite-storage";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import PickerNumber from '../PickerNumber';
+import TimePicker from '../TimePicker';
 
 function DesignTrip()
 {
+  
+  const createTables=(dbLocal : SQLite.SQLiteDatabase)=>
+    {
+      const sqlName="CREATE TABLE IF NOT EXISTS SearchHistory( " +
+      "search_id INTEGER PRIMARY KEY NOT NULL, " +
+      "day INTEGER, month INTEGER,year INTEGER,fromStation TEXT,toStation TEXT,time TEXT,daySelect TEXT" +
+    ");"
+      console.log('create table search history')
+      console.log(dbLocal);
+      dbLocal.transaction(tx  => {
+        tx.executeSql(
+          sqlName
+        )
+      }).then(()=>{
+        console.log('create table');
+        dbLocal.transaction(tx =>
+          {
+            var temp=[]
+            tx.executeSql("select  * from searchHistory order by year,month,day limit 1", [], // passing sql query and parameters:null
+            (tx,results) => {
+              console.log(results.rows.item(0).fromStation)
+              setFromStation(results.rows.item(0).fromStation)
+              setToStation(results.rows.item(0).toStation)
+              refStationFrom.current.getAlert(results.rows.item(0).fromStation)
+              refStationTo.current.getAlert(results.rows.item(0).toStation)
+          })
+        
+      })
+    })
+  
+    }  
+  
+    
+    const [db, setDb] = useState(null);
+  useEffect(function() {
+
+    SQLite.DEBUG(true);
+    SQLite.enablePromise(true);
+    
+    SQLite.openDatabase({
+        name: "SearchHistory",
+        location: "default"
+    }).then((db) => {
+      setDb(db)
+      createTables(db)
+        
+    });
+}, []);
 	const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
@@ -27,39 +77,57 @@ function DesignTrip()
 	  const fr=fromStation;
 	  const t=toStation;
 	  setToStation(fr)
-	  setFromStation(fr)
+    setFromStation(t)
+
+    refStationFrom.current.getAlert(t);
+    refStationTo.current.getAlert(fr);
   }
   const [arrive,setArrive]=useState(false)
   const [date, setDate] = useState(new Date())
   const [time, setTime] = useState(new Date())
-  const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [fromStation, setFromStation] = useState('sss');
-  const [toStation, setToStation] = useState('aaa');
+  const [fromStation, setFromStation] = useState();
+  const [toStation, setToStation] = useState();
   const [showTime, setShowTime] = useState(false);
-  const myRef=createRef<typeof Station>();
-  const myRefTo=createRef<typeof Station>();
-  const setTommorow=()=>
+  
+  const updateDatabase=()=>
+    {
+       
+        const d=new Date();
+        db.transaction(tx => {
+        tx.executeSql(
+        "insert into SearchHistory (day,month,year,fromStation,toStation,time,daySelect) values(?,?,?,?,?,?,?)",[
+          d.getDate(),d.getMonth()+1,d.getFullYear(),fromStation,toStation,time.toTimeString(),   date.toLocaleString()
+        ])
+      .then(()=>{
+        console.log('add record');
+      })
+    })
+  }
+  const setTomorrow=()=>
   {
 	  var ms = new Date().getTime() + 86400000;
   	  var tomorrow = new Date(ms);
 		setDate(tomorrow)
-		console.log(myRef)
+
 
   }
-  
+  const refStationFrom=useRef(null)
+  const refStationTo=useRef(null)
 
 
   return (
     <>
 	<View style={{marginBottom:40}}>
-    <Station ref={myRef} value={fromStation} onChange={(value)=>setFromStation(value)} name="מוצא"/>
-    <Station ref={myRefTo} value={toStation} onChange={(value)=>setToStation(value)} name={"יעד"}/>
+    
+    <Station ref={refStationFrom} 
+    value={fromStation} onChange={(value)=>setFromStation(value)} name="מוצא"/>
+    <Station ref={refStationTo} value={toStation} onChange={(value)=>setToStation(value)} name={"יעד"}/>
 	</View>
 	
 	
 	<View style={{flexDirection:'row',marginBottom:20}}>
-	<View style={{paddingHorizontal:10}}><Text style={styles.lableStyle}>תכנון נסיעה ליום</Text></View>
+	<View style={{paddingHorizontal:10}}><Text style={styles.labelStyle}>תכנון נסיעה ליום</Text></View>
 	<View><Text>{date.toLocaleDateString()}</Text></View>
 	
     
@@ -68,7 +136,7 @@ function DesignTrip()
     <TouchableHighlight style={styles.appButtonContainer} onPress={()=>setDate(new Date())}>
     <Text style={styles.appButtonText}>היום</Text>
     </TouchableHighlight>
-    <TouchableHighlight style={styles.appButtonContainer} onPress={()=>setTommorow()}>
+    <TouchableHighlight style={styles.appButtonContainer} onPress={()=>setTomorrow()}>
     <Text style={styles.appButtonText}>מחר</Text>
     </TouchableHighlight>
 	
@@ -89,14 +157,23 @@ function DesignTrip()
 		</TouchableHighlight>
 		<View style={{flexDirection:'row',paddingTop:20,paddingLeft:10}}>
 			<View style={{paddingRight:10}}>
-				<Text  style={styles.lableStyle}>זמן יציאה\הגעה</Text>
+				<Text  style={styles.labelStyle}>זמן { arrive ? 'יציאה' : 'הגעה'} </Text>
+        
 			</View>
-			<View><Text  style={styles.lableStyle}>{time.toLocaleTimeString('he-IL')}</Text></View>
+			<View><Text  style={styles.labelStyle}>{time.toLocaleTimeString('he-IL')}</Text></View>
+      <TimePicker onChange={(m)=>{
+        let d=new Date()
+        d.setHours(m)
+        d.setMinutes(0)
+        d.setSeconds(0)
+        setTime(d)
+
+      }}></TimePicker>
 			<DateTimePickerModal
         isVisible={showTime}
         mode="time"
-        onConfirm={(value)=>{alert('confirm');setShowTime(false);setTime(value)}}
-        onCancel={()=>{alert('confirm');setShowTime(false)}}
+        onConfirm={(value)=>{alert(value);setShowTime(false);setTime(value)}}
+        onCancel={()=>{setShowTime(false)}}
       />
 		</View>
 	</View>
@@ -106,13 +183,13 @@ function DesignTrip()
     </View>
     </TouchableHighlight>
     <View style={{flexDirection:'row',marginVertical:20}}>
-    <Text style={styles.lableStyle}>הגעה\יציאה
+    <Text style={styles.labelStyle}>הגעה\יציאה
     </Text>
     <Switch
          onValueChange = {(value)=>setArrive(value)}
          value = {arrive}/>
     </View>
-	<TouchableHighlight style={styles.appButtonContainer} onPress={()=>alert('aaa')}>
+	<TouchableHighlight style={styles.appButtonContainer} onPress={()=>updateDatabase()}>
     <Text style={styles.appButtonText}>חיפוש</Text>
 	</TouchableHighlight>
     </>
@@ -143,6 +220,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22
   },
+  stationLabel:
+  {
+    fontSize:16,
+    fontWeight:'bold',
+  },
   modalView: {
     margin: 20,
     backgroundColor: "white",
@@ -164,7 +246,7 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
-  lableStyle:
+  labelStyle:
   {
 	color: "black",
     fontWeight: "bold",

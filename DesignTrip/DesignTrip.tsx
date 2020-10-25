@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect, createRef} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,6 +14,7 @@ import {
 import Station from './Station'
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 function DesignTrip()
 {
 	const onChange = (event, selectedDate) => {
@@ -36,11 +37,14 @@ function DesignTrip()
   const [fromStation, setFromStation] = useState('sss');
   const [toStation, setToStation] = useState('aaa');
   const [showTime, setShowTime] = useState(false);
+  const myRef=createRef<typeof Station>();
+  const myRefTo=createRef<typeof Station>();
   const setTommorow=()=>
   {
 	  var ms = new Date().getTime() + 86400000;
   	  var tomorrow = new Date(ms);
 		setDate(tomorrow)
+		console.log(myRef)
 
   }
   
@@ -49,8 +53,8 @@ function DesignTrip()
   return (
     <>
 	<View style={{marginBottom:40}}>
-    <Station value={fromStation} onChange={(value)=>setFromStation(value)} name="מוצא"/>
-    <Station value={toStation} onChange={(value)=>setToStation(value)} name={"יעד"}/>
+    <Station ref={myRef} value={fromStation} onChange={(value)=>setFromStation(value)} name="מוצא"/>
+    <Station ref={myRefTo} value={toStation} onChange={(value)=>setToStation(value)} name={"יעד"}/>
 	</View>
 	
 	

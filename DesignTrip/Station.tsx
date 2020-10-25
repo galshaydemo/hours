@@ -22,7 +22,8 @@ let list: Array<IStation> = customData;
 type StationParam = {
   name: string,
   value:string,
-  onChange:Function
+  onChange:Function,
+  ref:any
   
   
 }

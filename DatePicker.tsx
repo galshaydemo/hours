@@ -9,7 +9,7 @@ import {
   Button,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import PickerNumber from './PickerNumber';
+import PickerNumber from './Component/PickerNumber';
 
 export default function DatePicker({onChange})
 {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useImperativeHandle } from "react";
 import {
   Alert,
   Modal,
@@ -10,7 +10,7 @@ import {
   FlatList,
   View
 } from "react-native";
-const customData = require('./../Data/stat.json');
+const customData = require('./../Data/station.json');
 
 interface IStation {
         Name: string;
@@ -23,17 +23,21 @@ type StationParam = {
   name: string,
   value:string,
   onChange:Function,
-  ref:any
   
   
 }
-const Station=({value,name,onChange}:StationParam)=> {
-  
+const Station=({value,name,onChange}:StationParam,ref)=> {
+  useImperativeHandle(ref, () => ({
+    getAlert(text) {
+    setStation(text)
+    }
+
+  }));
   const a=(item:IStation)=>
   {
-      setModalVisible(false)
-      setStation(item.Name)
-	  onChange(item.Name)
+       setModalVisible(false)
+       setStation(item.Name)
+	     onChange(item.Name)
 
   }
       
@@ -51,9 +55,8 @@ const Station=({value,name,onChange}:StationParam)=> {
       <TouchableHighlight onPress={()=>setModalVisible(true)} style={styles.appButtonContainer}>
 		  <Text style={styles.appButtonText}>תחנה</Text>
 	  </TouchableHighlight>
-      <View style={{borderWidth:1,borderRadius:5,flexDirection:'row',paddingHorizontal:3}}>
-      
-      <Text style={{width:160}} >{station}</Text>
+      <View style={{borderWidth:1}}>
+        <Text style={styles.station}>{station}</Text>
       </View>
       
       </View>
@@ -101,9 +104,9 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   station:{
-    width:150,
+    width:100,
     borderWidth:0,
-    fontSize:10,
+    fontSize:16,
     padding:3,
     margin:3,
 
@@ -126,5 +129,5 @@ const styles = StyleSheet.create({
     textTransform: "uppercase"
   }
 });
-
-export default Station
+const StationForword = React.forwardRef(Station)
+export default StationForword

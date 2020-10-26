@@ -122,7 +122,7 @@ function DesignTrip()
 	<View style={{marginBottom:40}}>
     
     <Station ref={refStationFrom} 
-    value={fromStation} onChange={(value)=>setFromStation(value)} name={translate(cc_destination)}/>
+    value={fromStation} onChange={(value)=>setFromStation(value)} name="מוצא"/>
     <Station ref={refStationTo} value={toStation} onChange={(value)=>setToStation(value)} name={"יעד"}/>
 	</View>
 	
@@ -162,7 +162,8 @@ function DesignTrip()
         
 			</View>
 			<View><Text  style={styles.labelStyle}>{time.toLocaleTimeString('he-IL')}</Text></View>
-      	<DateTimePickerModal
+      
+			<DateTimePickerModal
         isVisible={showTime}
         mode="time"
         onConfirm={(value)=>{alert(value);setShowTime(false);setTime(value)}}
